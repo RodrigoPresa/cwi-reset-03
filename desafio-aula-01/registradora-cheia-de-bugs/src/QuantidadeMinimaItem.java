@@ -9,8 +9,8 @@ public class QuantidadeMinimaItem {
             return ItensPorQuantidade.torta < 10;
         }
 
-        if ("sanduba".equals(item)) {
-            return ItensPorQuantidade.sanduiche == 1;
+        if ("sanduiche".equals(item)) {
+            return ItensPorQuantidade.sanduiche < 2;
         }
 
         if ("cafe".equals(item)) {

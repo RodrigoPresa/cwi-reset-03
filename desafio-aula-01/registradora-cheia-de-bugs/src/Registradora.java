@@ -2,17 +2,17 @@
 public class Registradora {
 
     public static void main(String[] args) {
-//        primeiroBug();
+        primeiroBug();
 
-//        segundoBug();
+        segundoBug();
 
-//        terceiroBug();
+        terceiroBug();
 
-//        quartoBug();
+        quartoBug();
 
         quintoBug();
 
-//        sextoBug();
+        sextoBug();
     }
 
     private static double registrarItem(String item, int quantidade) {
@@ -22,8 +22,8 @@ public class Registradora {
             if ("pao".equals(item) || "sanduiche".equals(item) || "torta".equals(item)) {
                 if (!DataProjeto.cozinhaEmFuncionamento()) {
                     System.out.println("Cozinha fechada!");
-                }
-                ReposicaoCozinha.reporItem(item);
+                    precoItem = 0;
+                } else ReposicaoCozinha.reporItem(item);
             }
 
             if ("leite".equals(item) || "cafe".equals(item)) {
@@ -51,7 +51,6 @@ public class Registradora {
 
         double precoTotal = registrarItem(item, quantidade);
 
-
         System.out.println(String.format("Valor total: %.2f", precoTotal));
     }
 
@@ -72,6 +71,7 @@ public class Registradora {
         int quantidade = 20;
 
         double precoTotal = registrarItem(item, quantidade);
+        AtualizaEstoque.atualizaItem(item, quantidade);
 
         System.out.println(String.format("Valor total: %.2f", precoTotal));
 
@@ -101,6 +101,7 @@ public class Registradora {
         int quantidade = 20;
 
         double precoTotal = registrarItem(item, quantidade);
+        AtualizaEstoque.atualizaItem(item, quantidade);
 
         System.out.println(String.format("Valor total: %.2f", precoTotal));
 
@@ -110,7 +111,10 @@ public class Registradora {
 
         double precoTotal2 = registrarItem(item2, quantidade2);
 
-        System.out.println(String.format("Valor total: %.2f", precoTotal2));
+        if(precoTotal2 == 0)
+            System.out.printf("Reposição indisponível de %s, quantidade restante em estoque é de %d.", item2, ItensPorQuantidade.sanduiche);
+        else
+            System.out.println(String.format("Valor total: %.2f", precoTotal2));
     }
 
 }
