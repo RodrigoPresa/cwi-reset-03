@@ -7,11 +7,20 @@ public class Aplicacao {
         Filme filme1 = new Filme("Primeiro Filme", "Descrição1", 120,
                 "2020", 4, diretor);
         Filme filme2 = new Filme("Segundo Filme", "Descrição2", 140,
-                "2021", 5, diretor);
+                "2021", 6, diretor);
 
-        filme1.reproduzir();
+        try {
+            filme1.reproduzir();
+        } catch(AvaliacaoForaDoPadraoException e){
+            System.out.println(e.getMessage());
+        }
+
         diretor.sobre();
         ator1.sobre();
-        filme2.reproduzir();
+        try {
+            filme2.reproduzir();
+        } catch(AvaliacaoForaDoPadraoException e){
+            System.out.println(e.getMessage());
+        }
     }
 }
