@@ -26,14 +26,38 @@ public class Aplicacao {
         AtorRequest atorRequest2 = new AtorRequest(nome2, dataNascimento2, statusCarreira2, anoInicioAtividade2);
 
         atorService.criarAtor(atorRequest2);
+
         atorService.printarAtor(atorService.consultarAtor(2));
+
         for(Ator ator : atorService.consultarAtores()){
             atorService.printarAtor(ator);
         }
 
 //        atorService.listarAtoresEmAtividade("Will");
 
+        DiretorService diretorService = new DiretorService(fakeDatabase);
+
+        String nomeDiretor = "Quentin Tarantino";
+        LocalDate dataNascimentoDiretor = LocalDate.of(1963, Month.MARCH, 27);
+        Integer anoInicioAtividadeDiretor = 1986;
+        DiretorRequest diretorRequest = new DiretorRequest(nomeDiretor, dataNascimentoDiretor, anoInicioAtividadeDiretor);
+
+        diretorService.criarDiretor(diretorRequest);
+
+        String nomeDiretor2 = "Quentin Tarantino2";
+        LocalDate dataNascimentoDiretor2 = LocalDate.of(1963, Month.MARCH, 27);
+        Integer anoInicioAtividadeDiretor2 = 1986;
+        DiretorRequest diretorRequest2 = new DiretorRequest(nomeDiretor2, dataNascimentoDiretor2, anoInicioAtividadeDiretor2);
+
+        diretorService.criarDiretor(diretorRequest2);
+
+        diretorService.printarDiretor(diretorService.consultarDiretor(1));
+
+        for(Diretor diretor : diretorService.consultarDiretores()){
+            diretorService.printarDiretor(diretor);
+        }
 //        System.out.println("Deve conter 1 ator, quantidade encontrada: " + atores.size());
 //        System.out.println("Primeiro ator deve ser 'Will Smith', valor encontrado: " + atores.get(1).getNome());
+
     }
 }
