@@ -1,5 +1,6 @@
 package br.com.cwi.reset.rodrigopresa;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -13,33 +14,53 @@ public class AtorService {
         this.fakeDatabase = fakeDatabase;
     }
 
-    public void criarAtor(AtorRequest atorRequest){
+    public void criarAtor(AtorRequest atorRequest) throws Exception{
+
+        if(atorRequest.getNome() == null){
+            throw new NomeNaoInformadoException();
+        }
+        if(atorRequest.getDataNascimento() == null){
+            throw new DataNascimentoNaoInformadoException();
+        }
+        if(atorRequest.getStatusCarreira() == null){
+            throw new StatusCarreiraNaoInformadoException();
+        }
+        if(atorRequest.getAnoInicioAtividade() == null){
+            throw new AnoInicioAtividadeNaoInformadoException();
+        }
+
+        if(atorRequest.getNome().split(" ").length > 2){
+            throw new NomeSobrenomeObrigatorioException("ator");
+        }
+
+        LocalDate dataAtual = LocalDate.now();
+        if (dataAtual.isBefore(atorRequest.getDataNascimento())){
+            throw new DataNascimentoMaiorQueDataAtualException("atores");
+        }
+
+        Integer anoNascimento = atorRequest.getDataNascimento().getYear();
+        if(atorRequest.getAnoInicioAtividade() < anoNascimento){
+            throw new AnoInicioAtividadeInvalidoException("ator");
+        }
+
         List<Ator> atores = fakeDatabase.recuperaAtores();
+
+        for(Ator atorCadastrado : atores){
+            if (atorCadastrado.getNome().equals(atorRequest.getNome())){
+                throw new CadastroDuplicadoException("ator", atorCadastrado.getNome());
+            }
+        }
+
         Ator ator = new Ator(atores.size() + 1, atorRequest.getNome(), atorRequest.getDataNascimento(),
                 atorRequest.getStatusCarreira(), atorRequest.getAnoInicioAtividade());
+
         this.fakeDatabase.persisteAtor(ator);
     }
-
-//    public void criarAtor(AtorRequest atorRequest) throws Exception{
-//        if(atorRequest.getNome() == null){
-//            throw new Exception("Campo obrigatório não informado. Favor informar o campo nome");
-//        }
-//        if(atorRequest.getDataNascimento() == null){
-//            throw new Exception("Campo obrigatório não informado. Favor informar o campo dataNascimento");
-//        }
-//        if(atorRequest.getStatusCarreira() == null){
-//            throw new Exception("Campo obrigatório não informado. Favor informar o campo dataNascimento");
-//        }
-//        if(atorRequest.getAnoInicioAtividade() == null){
-//            throw new Exception("Campo obrigatório não informado. Favor informar o campo dataNascimento");
-//        }
-//        fakeDatabase.persisteAtor(ator);
-//    }
 
     public List<AtorEmAtividade> listarAtoresEmAtividade(String filtroNome) throws Exception{
         List<Ator> atoresCadastrados = fakeDatabase.recuperaAtores();
         if(atoresCadastrados.isEmpty()){
-            throw new Exception("Nenhum ator cadastrado, favor cadastar atores.");
+            throw new ListaVaziaException("ator", "atores");
         }
 
         List<AtorEmAtividade> atorEmAtividade = new ArrayList<>();
@@ -62,24 +83,32 @@ public class AtorService {
         }
 
         if(atorEmAtividade.isEmpty()){
-            throw new Exception(String.format("Ator não encontrato com o filtro %s, favor informar outro filtro.", filtroNome));
+            throw new FiltroNaoEncontradoException("Ator", filtroNome);
         }
 
         return atorEmAtividade;
     }
 
-    public Ator consultarAtor(Integer id){
+    public Ator consultarAtor(Integer id) throws Exception{
+        if (id == null) {
+            throw new IdNaoInformadoException();
+        }
+
         List<Ator> atores = fakeDatabase.recuperaAtores();
         for(Ator ator : atores){
             if(ator.getId() == id){
                 return ator;
             }
         }
-        return null;
+        throw new ConsultaIdInvalidoException("ator", id);
     }
 
-    public List<Ator> consultarAtores(){
+    public List<Ator> consultarAtores() throws Exception{
         List<Ator> atores = fakeDatabase.recuperaAtores();
+
+        if (atores.isEmpty()) {
+            throw new ListaVaziaException("ator", "atores");
+        }
 
         return atores;
     }

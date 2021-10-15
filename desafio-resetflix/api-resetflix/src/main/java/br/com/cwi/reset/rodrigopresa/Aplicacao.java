@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Aplicacao {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         FakeDatabase fakeDatabase = new FakeDatabase();
 
         AtorService atorService = new AtorService(fakeDatabase);
@@ -33,15 +33,10 @@ public class Aplicacao {
             atorService.printarAtor(ator);
         }
 
-        try {
-
-            for(AtorEmAtividade ator : atorService.listarAtoresEmAtividade("Will")){
-                atorService.printarAtorEmAtividade(ator);
-            }
-
-        }catch (Exception e){
-            System.out.println("Erro");
+        for(AtorEmAtividade ator : atorService.listarAtoresEmAtividade("Will")){
+            atorService.printarAtorEmAtividade(ator);
         }
+
 
 
         DiretorService diretorService = new DiretorService(fakeDatabase);
