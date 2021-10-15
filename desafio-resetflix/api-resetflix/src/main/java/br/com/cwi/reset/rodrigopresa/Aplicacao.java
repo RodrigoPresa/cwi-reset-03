@@ -33,7 +33,16 @@ public class Aplicacao {
             atorService.printarAtor(ator);
         }
 
-//        atorService.listarAtoresEmAtividade("Will");
+        try {
+
+            for(AtorEmAtividade ator : atorService.listarAtoresEmAtividade("Will")){
+                atorService.printarAtorEmAtividade(ator);
+            }
+
+        }catch (Exception e){
+            System.out.println("Erro");
+        }
+
 
         DiretorService diretorService = new DiretorService(fakeDatabase);
 
