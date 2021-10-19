@@ -36,7 +36,7 @@ public class AtorService {
             throw new AnoInicioAtividadeNaoInformadoException();
         }
 
-        if(atorRequest.getNome().split(" ").length > 2){
+        if(atorRequest.getNome().split(" ").length < 2){
             throw new NomeSobrenomeObrigatorioException("ator");
         }
 
