@@ -27,7 +27,7 @@ public class DiretorService {
         if(diretorRequest.getAnoInicioAtividade() == null){
             throw new AnoInicioAtividadeNaoInformadoException();
         }
-        if(diretorRequest.getNome().split(" ").length > 2){
+        if(diretorRequest.getNome().split(" ").length < 2){
             throw new NomeSobrenomeObrigatorioException("diretor");
         }
 
