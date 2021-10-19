@@ -7,7 +7,7 @@ import java.time.Period;
 
 public abstract class Pessoa {
     private String nome;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate dataNascimento;
     private Genero genero;
 
