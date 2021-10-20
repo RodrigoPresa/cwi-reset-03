@@ -2,6 +2,7 @@ package br.com.cwi.reset.rodrigopresa;
 
 import br.com.cwi.reset.rodrigopresa.model.Ator;
 import br.com.cwi.reset.rodrigopresa.model.Diretor;
+import br.com.cwi.reset.rodrigopresa.model.Estudio;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ public class FakeDatabase {
 
     private List<Ator> atores = new ArrayList<>();
     private List<Diretor> diretores = new ArrayList<>();
-//    private List<Estudio> estudios = new ArrayList<>();
+    private List<Estudio> estudios = new ArrayList<>();
 //    private List<Filme> filmes = new ArrayList<>();
 //    private List<PersonagemAtor> personagens = new ArrayList<>();
 
@@ -36,14 +37,14 @@ public class FakeDatabase {
         return diretores;
     }
 
-//    public void persisteEstudio(Estudio estudio) {
-//        estudios.add(estudio);
-//    }
-//
-//    public List<Estudio> recuperaEstudios() {
-//        return estudios;
-//    }
-//
+    public void persisteEstudio(Estudio estudio) {
+        estudios.add(estudio);
+    }
+
+    public List<Estudio> recuperaEstudios() {
+        return estudios;
+    }
+
 //    public void persisteFilme(Filme filme) {
 //        filmes.add(filme);
 //    }
