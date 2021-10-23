@@ -57,6 +57,6 @@ public class PetService {
             throw new PetNaoExistenteException("O pet de nome " + pet.getNome() + " não existe");
         }
 
-        return petRepository.update(pet);
+        return petRepository.save(pet);
     }
 }
