@@ -3,7 +3,9 @@ package br.com.cwi.reset.rodrigopresa.request;
 import br.com.cwi.reset.rodrigopresa.model.Diretor;
 import br.com.cwi.reset.rodrigopresa.model.Estudio;
 import br.com.cwi.reset.rodrigopresa.model.Genero;
+import br.com.cwi.reset.rodrigopresa.model.PersonagemAtor;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class FilmeRequest {
@@ -11,12 +13,12 @@ public class FilmeRequest {
     private Integer anoLancamento;
     private String capaFilme;
     private List<Genero> generos;
-    private Diretor idDiretor;
-    private Estudio idEstudio;
+    private Integer idDiretor;
+    private Integer idEstudio;
     private String resumo;
     private List<PersonagemRequest> personagens;
 
-    public FilmeRequest(String nome, Integer anoLancamento, String capaFilme, List<Genero> generos, Diretor idDiretor, Estudio idEstudio, String resumo, List<PersonagemRequest> personagens) {
+    public FilmeRequest(String nome, Integer anoLancamento, String capaFilme, List<Genero> generos, Integer idDiretor, Integer idEstudio, String resumo, List<PersonagemRequest> personagens) {
         this.nome = nome;
         this.anoLancamento = anoLancamento;
         this.capaFilme = capaFilme;
@@ -43,11 +45,11 @@ public class FilmeRequest {
         return generos;
     }
 
-    public Diretor getIdDiretor() {
+    public Integer getIdDiretor() {
         return idDiretor;
     }
 
-    public Estudio getIdEstudio() {
+    public Integer getIdEstudio() {
         return idEstudio;
     }
 
