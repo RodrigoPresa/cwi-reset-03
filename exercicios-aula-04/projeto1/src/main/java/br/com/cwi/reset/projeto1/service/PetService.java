@@ -1,11 +1,17 @@
 package br.com.cwi.reset.projeto1.service;
 
 import br.com.cwi.reset.projeto1.domain.Pet;
+import br.com.cwi.reset.projeto1.exception.PetNaoExistenteException;
 import br.com.cwi.reset.projeto1.repository.PetRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class PetService {
+
+    @Autowired
     private PetRepository petRepository;
 
     public Pet salvarPet(Pet pet) throws Exception{
@@ -23,23 +29,32 @@ public class PetService {
         return petRepository.findAll();
     }
 
-    public Pet buscarPorNome(String nomePet){
-        return petRepository.findByNome(nomePet);
+    public Pet buscarPorNome(String nomePet) throws PetNaoExistenteException {
+
+        Pet pet =  petRepository.findByNome(nomePet);
+
+        if(pet == null){
+            throw new PetNaoExistenteException("O pet de nome " + nomePet + " não existe");
+        }
+
+        return pet;
     }
 
-    public void deletar(String nomePet) throws Exception{
-        Pet pet = buscarPorNome(nomePet);
+    public void deletar(String nomePet) throws PetNaoExistenteException{
+        Pet pet = petRepository.findByNome(nomePet);
 
-        if (pet == null) {
-            throw new Exception("O pet de nome " + nomePet + " não existe");
+        if(pet == null){
+            throw new PetNaoExistenteException("O pet de nome " + nomePet + " não existe");
         }
 
         petRepository.delete(pet);
     }
 
-    public Pet atualizar(Pet pet) throws Exception{
-        if (pet == null) {
-            throw new Exception("O pet de nome " + pet.getNome() + " não existe");
+    public Pet atualizar(Pet pet) throws PetNaoExistenteException{
+        Pet petJaCadastrado = petRepository.findByNome(pet.getNome());
+
+        if(petJaCadastrado == null){
+            throw new PetNaoExistenteException("O pet de nome " + pet.getNome() + " não existe");
         }
 
         return petRepository.update(pet);
