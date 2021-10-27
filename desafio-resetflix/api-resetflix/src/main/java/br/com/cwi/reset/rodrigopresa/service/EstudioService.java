@@ -42,7 +42,7 @@ public class EstudioService {
             }
         }
 
-        Estudio estudio = new Estudio(estudios.size() + 1, estudioRequest.getNome(), estudioRequest.getDescricao(),
+        Estudio estudio = new Estudio(estudioRequest.getNome(), estudioRequest.getDescricao(),
                 estudioRequest.getDataCriacao(), estudioRequest.getStatusAtividade());
 
         this.fakeDatabase.persisteEstudio(estudio);
@@ -57,7 +57,7 @@ public class EstudioService {
             for(Estudio estudio : estudiosCadastrados){
                 boolean contemFiltroNome = estudio.getNome().toLowerCase(Locale.ROOT).contains(filtroNome.toLowerCase(Locale.ROOT));
                 if(contemFiltroNome){
-                    estudioFiltrado.add(new Estudio(estudio.getId(), estudio.getNome(), estudio.getDescricao(), estudio.getDataCriacao(), estudio.getStatusAtividade()));
+                    estudioFiltrado.add(new Estudio(estudio.getNome(), estudio.getDescricao(), estudio.getDataCriacao(), estudio.getStatusAtividade()));
                     return estudioFiltrado;
                 } else {
                     throw new FiltroNaoEncontradoException("Estúdio", filtroNome);

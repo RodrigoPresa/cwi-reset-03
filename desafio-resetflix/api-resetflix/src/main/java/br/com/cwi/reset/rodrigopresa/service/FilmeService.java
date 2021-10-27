@@ -54,10 +54,7 @@ public class FilmeService {
 
         final List<Filme> filmesCadastrados = fakeDatabase.recuperaFilmes();
 
-        final Integer idGerado = filmesCadastrados.size() + 1;
-
         final Filme filme = new Filme(
-                idGerado,
                 filmeRequest.getNome(),
                 filmeRequest.getAnoLancamento(),
                 filmeRequest.getCapaFilme(),

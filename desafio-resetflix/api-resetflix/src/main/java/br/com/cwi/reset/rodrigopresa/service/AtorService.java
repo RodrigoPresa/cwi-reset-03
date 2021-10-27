@@ -58,7 +58,7 @@ public class AtorService {
             }
         }
 
-        Ator ator = new Ator(atores.size() + 1, atorRequest.getNome(), atorRequest.getDataNascimento(),
+        Ator ator = new Ator(atorRequest.getNome(), atorRequest.getDataNascimento(),
                 atorRequest.getStatusCarreira(), atorRequest.getAnoInicioAtividade());
 
         this.fakeDatabase.persisteAtor(ator);

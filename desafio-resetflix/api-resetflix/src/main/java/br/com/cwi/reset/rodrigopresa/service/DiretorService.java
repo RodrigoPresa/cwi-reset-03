@@ -49,7 +49,7 @@ public class DiretorService {
             }
         }
 
-        Diretor diretor = new Diretor(diretores.size() + 1, diretorRequest.getNome(), diretorRequest.getDataNascimento(),
+        Diretor diretor = new Diretor(diretorRequest.getNome(), diretorRequest.getDataNascimento(),
                 diretorRequest.getAnoInicioAtividade());
 
         this.fakeDatabase.persisteDiretor(diretor);
