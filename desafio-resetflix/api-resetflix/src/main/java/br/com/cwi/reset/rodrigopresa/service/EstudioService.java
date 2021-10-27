@@ -3,14 +3,21 @@ package br.com.cwi.reset.rodrigopresa.service;
 import br.com.cwi.reset.rodrigopresa.FakeDatabase;
 import br.com.cwi.reset.rodrigopresa.exceptions.*;
 import br.com.cwi.reset.rodrigopresa.model.Estudio;
+import br.com.cwi.reset.rodrigopresa.repository.EstudioRepository;
 import br.com.cwi.reset.rodrigopresa.request.EstudioRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+@Service
 public class EstudioService {
+
+    @Autowired
+    private EstudioRepository estudioRepository;
     private FakeDatabase fakeDatabase;
 
     public EstudioService(FakeDatabase fakeDatabase) {

@@ -4,18 +4,25 @@ import br.com.cwi.reset.rodrigopresa.FakeDatabase;
 import br.com.cwi.reset.rodrigopresa.exceptions.*;
 import br.com.cwi.reset.rodrigopresa.model.Ator;
 import br.com.cwi.reset.rodrigopresa.model.PersonagemAtor;
+import br.com.cwi.reset.rodrigopresa.repository.PersonagemAtorRepository;
 import br.com.cwi.reset.rodrigopresa.request.PersonagemRequest;
 import br.com.cwi.reset.rodrigopresa.validator.PersonagemRequestCamposObrigatoriosValidator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+@Service
 public class PersonagemAtorService {
+
+    @Autowired
+    private PersonagemAtorRepository personagemAtorRepository;
     private FakeDatabase fakeDatabase;
     private AtorService atorService;
 
     public PersonagemAtorService(FakeDatabase fakeDatabase) {
         this.fakeDatabase = fakeDatabase;
-        this.atorService = new AtorService(fakeDatabase);
+        this.atorService = new AtorService();
     }
 
     public PersonagemAtor cadastrarPersonagemAtor(PersonagemRequest personagemRequest) throws Exception {
@@ -43,6 +50,10 @@ public class PersonagemAtorService {
 
     public List<PersonagemAtor> consultarPersonagemAtor(String nome) throws Exception {
         return fakeDatabase.recuperaPersonagens();
+    }
+
+    public List<PersonagemAtor> consultarPersonagens(){
+        return personagemAtorRepository.findAll();
     }
 
     private void validarPersonagensAtoresFilme(final List<PersonagemRequest> personagens) throws Exception {

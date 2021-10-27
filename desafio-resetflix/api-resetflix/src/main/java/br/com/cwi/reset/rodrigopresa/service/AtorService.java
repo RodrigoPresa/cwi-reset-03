@@ -1,56 +1,44 @@
 package br.com.cwi.reset.rodrigopresa.service;
 
-import br.com.cwi.reset.rodrigopresa.FakeDatabase;
 import br.com.cwi.reset.rodrigopresa.exceptions.*;
 import br.com.cwi.reset.rodrigopresa.model.Ator;
+import br.com.cwi.reset.rodrigopresa.model.PersonagemAtor;
 import br.com.cwi.reset.rodrigopresa.model.StatusCarreira;
+import br.com.cwi.reset.rodrigopresa.repository.AtorRepository;
 import br.com.cwi.reset.rodrigopresa.request.AtorRequest;
 import br.com.cwi.reset.rodrigopresa.response.AtorEmAtividade;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+@Service
 public class AtorService {
 
-    private FakeDatabase fakeDatabase;
+    @Autowired
+    private AtorRepository atorRepository;
     private AtorEmAtividade atorEmAtividade;
+    private PersonagemAtorService personagemAtorService;
 
-    public AtorService(FakeDatabase fakeDatabase) {
-        this.fakeDatabase = fakeDatabase;
-    }
 
     public void criarAtor(AtorRequest atorRequest) throws Exception{
-
-        if(atorRequest.getNome() == null){
-            throw new NomeNaoInformadoException();
-        }
-        if(atorRequest.getDataNascimento() == null){
-            throw new DataNascimentoNaoInformadoException();
-        }
-        if(atorRequest.getStatusCarreira() == null){
-            throw new StatusCarreiraNaoInformadoException();
-        }
-        if(atorRequest.getAnoInicioAtividade() == null){
-            throw new AnoInicioAtividadeNaoInformadoException();
-        }
 
         if(atorRequest.getNome().split(" ").length < 2){
             throw new NomeSobrenomeObrigatorioException("ator");
         }
-
         LocalDate dataAtual = LocalDate.now();
         if (dataAtual.isBefore(atorRequest.getDataNascimento())){
             throw new DataNascimentoMaiorQueDataAtualException("atores");
         }
-
         Integer anoNascimento = atorRequest.getDataNascimento().getYear();
         if(atorRequest.getAnoInicioAtividade() < anoNascimento){
             throw new AnoInicioAtividadeInvalidoException("ator");
         }
 
-        List<Ator> atores = fakeDatabase.recuperaAtores();
+        List<Ator> atores = atorRepository.findAll();
 
         for(Ator atorCadastrado : atores){
             if (atorCadastrado.getNome().equals(atorRequest.getNome())){
@@ -61,11 +49,11 @@ public class AtorService {
         Ator ator = new Ator(atorRequest.getNome(), atorRequest.getDataNascimento(),
                 atorRequest.getStatusCarreira(), atorRequest.getAnoInicioAtividade());
 
-        this.fakeDatabase.persisteAtor(ator);
+        atorRepository.save(ator);
     }
 
     public List<AtorEmAtividade> listarAtoresEmAtividade(String filtroNome) throws Exception{
-        List<Ator> atoresCadastrados = fakeDatabase.recuperaAtores();
+        List<Ator> atoresCadastrados = atorRepository.findAll();
         if(atoresCadastrados.isEmpty()){
             throw new ListaVaziaException("ator", "atores");
         }
@@ -101,17 +89,11 @@ public class AtorService {
             throw new IdNaoInformadoException();
         }
 
-        List<Ator> atores = fakeDatabase.recuperaAtores();
-        for(Ator ator : atores){
-            if(ator.getId() == id){
-                return ator;
-            }
-        }
-        throw new ConsultaIdInvalidoException("ator", id);
+        return atorRepository.findById(id).orElseThrow(() -> new ConsultaIdInvalidoException("ator", id));
     }
 
     public List<Ator> consultarAtores() throws Exception{
-        List<Ator> atores = fakeDatabase.recuperaAtores();
+        List<Ator> atores = atorRepository.findAll();
 
         if (atores.isEmpty()) {
             throw new ListaVaziaException("ator", "atores");
@@ -120,18 +102,37 @@ public class AtorService {
         return atores;
     }
 
-    public void printarAtor(Ator ator){
-        System.out.println("----------------------------------------------");
-        System.out.println("nome: " + ator.getNome());
-        System.out.println("Data de Nascimento: " + ator.getDataNascimento());
-        System.out.println("Status: " + ator.getStatusCarreira());
-        System.out.println("Inicio da Atividade: " + ator.getAnoInicioAtividade());
+    public void atualizarAtor(Integer id, AtorRequest atorRequest) throws Exception {
+        Ator atorAtualizado = new Ator(atorRequest.getNome(), atorRequest.getDataNascimento(),
+                atorRequest.getStatusCarreira(), atorRequest.getAnoInicioAtividade());
+
+        atorAtualizado.setId(consultarAtor(id).getId());
+
+        List<Ator> atores = atorRepository.findAll();
+
+        for(Ator atorCadastrado : atores){
+            if (atorCadastrado.getNome().equals(atorAtualizado.getNome())){
+                throw new CadastroDuplicadoException("ator", atorAtualizado.getNome());
+            }
+        }
+
+        atorRepository.save(atorAtualizado);
+
     }
 
-    public void printarAtorEmAtividade(AtorEmAtividade ator){
-        System.out.println("----------------------------------------------");
-        System.out.println(String.format("Ator em atividade filtrado: %s", ator.getNome()));
-        System.out.println("nome: " + ator.getNome());
-        System.out.println("Data de Nascimento: " + ator.getDataNascimento());
+    public void deletarAtor(Integer id) throws Exception {
+        if (id == null) {
+            throw new IdNaoInformadoException();
+        }
+        Ator atorDeletado = consultarAtor(id);
+        List<PersonagemAtor> personagens = personagemAtorService.consultarPersonagens();
+        for(PersonagemAtor personagem : personagens){
+            if (personagem.getAtor().equals(atorDeletado.getNome())){
+                throw new Exception("Este ator está vinculado a um ou mais personagens, para remover o ator é necessário remover os seus personagens de atuação.");
+            }
+        }
+
+        atorRepository.delete(atorDeletado);
     }
+
 }

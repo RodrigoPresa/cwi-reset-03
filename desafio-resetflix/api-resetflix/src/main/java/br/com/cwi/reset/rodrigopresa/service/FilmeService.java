@@ -6,12 +6,19 @@ import br.com.cwi.reset.rodrigopresa.model.Ator;
 import br.com.cwi.reset.rodrigopresa.model.Filme;
 import br.com.cwi.reset.rodrigopresa.model.Genero;
 import br.com.cwi.reset.rodrigopresa.model.PersonagemAtor;
+import br.com.cwi.reset.rodrigopresa.repository.FilmeRepository;
 import br.com.cwi.reset.rodrigopresa.request.FilmeRequest;
 import br.com.cwi.reset.rodrigopresa.request.PersonagemRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+@Service
 public class FilmeService {
+
+    @Autowired
+    private FilmeRepository filmeRepository;
     private FakeDatabase fakeDatabase;
     private AtorService atorService;
     private DiretorService diretorService;
@@ -20,7 +27,7 @@ public class FilmeService {
 
     public FilmeService(FakeDatabase fakeDatabase) {
         this.fakeDatabase = fakeDatabase;
-        this.atorService = new AtorService(FakeDatabase.getInstance());
+        this.atorService = new AtorService();
         this.diretorService = new DiretorService(FakeDatabase.getInstance());
         this.estudioService = new EstudioService(FakeDatabase.getInstance());
         this.personagemAtorService = new PersonagemAtorService(FakeDatabase.getInstance());

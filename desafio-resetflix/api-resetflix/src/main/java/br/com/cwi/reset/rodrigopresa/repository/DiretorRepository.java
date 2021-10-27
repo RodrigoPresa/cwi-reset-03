@@ -1,4 +1,7 @@
 package br.com.cwi.reset.rodrigopresa.repository;
 
-public class DiretorRepository {
+import br.com.cwi.reset.rodrigopresa.model.Diretor;
+import org.springframework.data.repository.CrudRepository;
+
+public interface DiretorRepository extends CrudRepository<Diretor, Integer> {
 }

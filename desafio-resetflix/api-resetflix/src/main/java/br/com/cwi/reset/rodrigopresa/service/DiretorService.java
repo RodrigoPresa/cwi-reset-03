@@ -2,14 +2,21 @@ package br.com.cwi.reset.rodrigopresa.service;
 
 import br.com.cwi.reset.rodrigopresa.exceptions.*;
 import br.com.cwi.reset.rodrigopresa.model.Diretor;
+import br.com.cwi.reset.rodrigopresa.repository.DiretorRepository;
 import br.com.cwi.reset.rodrigopresa.request.DiretorRequest;
 import br.com.cwi.reset.rodrigopresa.FakeDatabase;
 import br.com.cwi.reset.rodrigopresa.response.AtorEmAtividade;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Service
 public class DiretorService {
+
+    @Autowired
+    private DiretorRepository diretorRepository;
     private FakeDatabase fakeDatabase;
     private AtorEmAtividade atorEmAtividade;
 
