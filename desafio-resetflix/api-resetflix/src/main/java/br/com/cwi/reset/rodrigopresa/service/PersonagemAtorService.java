@@ -1,6 +1,5 @@
 package br.com.cwi.reset.rodrigopresa.service;
 
-import br.com.cwi.reset.rodrigopresa.FakeDatabase;
 import br.com.cwi.reset.rodrigopresa.exceptions.*;
 import br.com.cwi.reset.rodrigopresa.model.Ator;
 import br.com.cwi.reset.rodrigopresa.model.PersonagemAtor;
@@ -17,39 +16,43 @@ public class PersonagemAtorService {
 
     @Autowired
     private PersonagemAtorRepository personagemAtorRepository;
-    private FakeDatabase fakeDatabase;
+    @Autowired
     private AtorService atorService;
 
-    public PersonagemAtorService(FakeDatabase fakeDatabase) {
-        this.fakeDatabase = fakeDatabase;
-        this.atorService = new AtorService();
-    }
-
     public PersonagemAtor cadastrarPersonagemAtor(PersonagemRequest personagemRequest) throws Exception {
-        if(personagemRequest.getIdAtor() == null){
-            throw new IdNaoInformadoException();
-        }
-        if(personagemRequest.getNomePersonagem() == null){
-            throw new NomeNaoInformadoException();
-        }
-        if(personagemRequest.getDescricaoPersonagem() == null){
-            throw new DescricaoNaoInformadaException();
-        }
-        if(personagemRequest.getTipoAtuacao() == null){
-            throw new CampoNaoInformadoException("tipoAtuacao");
-        }
 
         final Ator ator = atorService.consultarAtor(personagemRequest.getIdAtor());
 
         final PersonagemAtor personagemAtor = new PersonagemAtor(ator, personagemRequest.getNomePersonagem(), personagemRequest.getDescricaoPersonagem(), personagemRequest.getTipoAtuacao());
 
-        this.fakeDatabase.persistePersonagem(personagemAtor);
+        personagemAtorRepository.save(personagemAtor);
 
         return personagemAtor;
     }
 
     public List<PersonagemAtor> consultarPersonagemAtor(String nome) throws Exception {
-        return fakeDatabase.recuperaPersonagens();
+        List<PersonagemAtor> personagens = personagemAtorRepository.findAll();
+
+        if (personagens.isEmpty()) {
+            throw new ListaVaziaException("personagem", "personagens");
+        }
+
+        List<PersonagemAtor> personagemFiltrado = new ArrayList<>();
+
+
+        if(nome != null){
+            for(PersonagemAtor personagem : personagens){
+                boolean contemFiltroNome = personagem.getNomePersonagem().toLowerCase(Locale.ROOT).contains(nome.toLowerCase(Locale.ROOT));
+                if(contemFiltroNome){
+                    personagemFiltrado.add(new PersonagemAtor(atorService.consultarAtor(personagem.getAtor().getId()), personagem.getNomePersonagem(),
+                            personagem.getDescricaoPersonagem(), personagem.getTipoAtuacao()));
+                    return personagemFiltrado;
+                } else {
+                    throw new FiltroNaoEncontradoException("personagem", nome);
+                }
+            }
+        }
+        return personagens;
     }
 
     public List<PersonagemAtor> consultarPersonagens(){

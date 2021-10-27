@@ -25,7 +25,7 @@ public class DiretorController {
         this.diretorService.criarDiretor(diretorRequest);
     }
 
-    @GetMapping
+    @GetMapping(params = "filtroNome")
     @ResponseStatus(HttpStatus.OK)
     public List<Diretor> listarDiretores(@RequestParam String filtroNome) throws Exception {
         return this.diretorService.consultarDiretores();

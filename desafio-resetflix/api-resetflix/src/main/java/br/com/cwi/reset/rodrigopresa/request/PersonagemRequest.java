@@ -1,14 +1,18 @@
 package br.com.cwi.reset.rodrigopresa.request;
 
-import br.com.cwi.reset.rodrigopresa.model.Ator;
 import br.com.cwi.reset.rodrigopresa.model.TipoAtuacao;
 
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 public class PersonagemRequest {
+    @NotNull(message = "Campo obrigatório não informado. Favor informar o campo idAtor.")
     private Integer idAtor;
+    @NotNull(message = "Campo obrigatório não informado. Favor informar o campo nomePersonagem.")
     private String nomePersonagem;
+    @NotNull(message = "Campo obrigatório não informado. Favor informar o campo descricaoPersonagem.")
     private String descricaoPersonagem;
+    @NotNull(message = "Campo obrigatório não informado. Favor informar o campo tipoAtuacao.")
     private TipoAtuacao tipoAtuacao;
 
     public PersonagemRequest(Integer idAtor, String nomePersonagem, String descricaoPersonagem, TipoAtuacao tipoAtuacao) {
