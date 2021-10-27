@@ -21,6 +21,7 @@ public class AtorService {
     @Autowired
     private AtorRepository atorRepository;
     private AtorEmAtividade atorEmAtividade;
+    @Autowired
     private PersonagemAtorService personagemAtorService;
 
 
