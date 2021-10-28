@@ -1,8 +1,6 @@
 package br.com.cwi.reset.rodrigopresa.controller;
 
-import br.com.cwi.reset.rodrigopresa.FakeDatabase;
 import br.com.cwi.reset.rodrigopresa.model.Diretor;
-import br.com.cwi.reset.rodrigopresa.request.AtorRequest;
 import br.com.cwi.reset.rodrigopresa.request.DiretorRequest;
 import br.com.cwi.reset.rodrigopresa.service.DiretorService;
 import org.springframework.beans.factory.annotation.Autowired;

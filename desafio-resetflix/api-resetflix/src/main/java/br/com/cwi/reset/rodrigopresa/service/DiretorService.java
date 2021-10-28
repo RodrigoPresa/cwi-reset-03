@@ -2,6 +2,7 @@ package br.com.cwi.reset.rodrigopresa.service;
 
 import br.com.cwi.reset.rodrigopresa.exceptions.*;
 import br.com.cwi.reset.rodrigopresa.model.Diretor;
+import br.com.cwi.reset.rodrigopresa.model.Filme;
 import br.com.cwi.reset.rodrigopresa.repository.DiretorRepository;
 import br.com.cwi.reset.rodrigopresa.request.DiretorRequest;
 import br.com.cwi.reset.rodrigopresa.response.AtorEmAtividade;
@@ -125,12 +126,12 @@ public class DiretorService {
             throw new IdNaoInformadoException();
         }
         Diretor diretorDeletado = consultarDiretor(id);
-//        List<Filme> filmes = filmeService.consultarFilme();
-//        for(Filme filme : filmes){
-//            if (filme.getDiretor().equals(diretorDeletado.getNome())){
-//                throw new Exception("Este diretor está vinculado a um ou mais filmes, para remover o diretor é necessário remover os seus filmes de participação.");
-//            }
-//        }
+        List<Filme> filmes = filmeService.consultarFilmes();
+        for(Filme filme : filmes){
+            if (filme.getDiretor().equals(diretorDeletado.getNome())){
+                throw new Exception("Este diretor está vinculado a um ou mais filmes, para remover o diretor é necessário remover os seus filmes de participação.");
+            }
+        }
 
         diretorRepository.delete(diretorDeletado);
     }

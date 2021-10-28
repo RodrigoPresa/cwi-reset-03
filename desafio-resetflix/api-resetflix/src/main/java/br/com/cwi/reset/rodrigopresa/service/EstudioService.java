@@ -2,6 +2,7 @@ package br.com.cwi.reset.rodrigopresa.service;
 
 import br.com.cwi.reset.rodrigopresa.exceptions.*;
 import br.com.cwi.reset.rodrigopresa.model.Estudio;
+import br.com.cwi.reset.rodrigopresa.model.StatusAtividade;
 import br.com.cwi.reset.rodrigopresa.repository.EstudioRepository;
 import br.com.cwi.reset.rodrigopresa.request.EstudioRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ public class EstudioService {
 
     @Autowired
     private EstudioRepository estudioRepository;
+    private StatusAtividade statusAtividade;
 
     public void criarEstudio(EstudioRequest estudioRequest) throws Exception{
 
