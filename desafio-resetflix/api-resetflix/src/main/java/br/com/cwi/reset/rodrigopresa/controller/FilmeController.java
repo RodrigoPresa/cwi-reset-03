@@ -1,7 +1,6 @@
 package br.com.cwi.reset.rodrigopresa.controller;
 
 import br.com.cwi.reset.rodrigopresa.exceptions.ConsultaIdInvalidoException;
-import br.com.cwi.reset.rodrigopresa.exceptions.IdNaoInformadoException;
 import br.com.cwi.reset.rodrigopresa.model.Filme;
 import br.com.cwi.reset.rodrigopresa.request.FilmeRequest;
 import br.com.cwi.reset.rodrigopresa.service.FilmeService;
@@ -33,15 +32,9 @@ public class FilmeController {
         return this.filmeService.consultarFilmes(nomeFilme, nomeDiretor, nomePersonagem, nomeAtor);
     }
 
-//    @GetMapping
-//    @ResponseStatus(HttpStatus.OK)
-//    public List<Filme> consultarFilmes() throws Exception{
-//        return this.filmeService.consultarFilmes();
-//    }
-
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void deletarFilme(@PathVariable Integer id) throws IdNaoInformadoException, ConsultaIdInvalidoException {
+    public void deletarFilme(@PathVariable Integer id) throws ConsultaIdInvalidoException {
         filmeService.deletarFilme(id);
     }
 }

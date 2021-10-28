@@ -1,13 +1,10 @@
 package br.com.cwi.reset.rodrigopresa.service;
 
 import br.com.cwi.reset.rodrigopresa.exceptions.*;
-import br.com.cwi.reset.rodrigopresa.model.Ator;
 import br.com.cwi.reset.rodrigopresa.model.Filme;
 import br.com.cwi.reset.rodrigopresa.model.Genero;
-import br.com.cwi.reset.rodrigopresa.model.PersonagemAtor;
 import br.com.cwi.reset.rodrigopresa.repository.FilmeRepository;
 import br.com.cwi.reset.rodrigopresa.request.FilmeRequest;
-import br.com.cwi.reset.rodrigopresa.request.PersonagemRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -83,10 +80,7 @@ public class FilmeService {
         return filmeRepository.findAll();
     }
 
-    public void deletarFilme(Integer id) throws IdNaoInformadoException, ConsultaIdInvalidoException {
-        if (id == null) {
-            throw new IdNaoInformadoException();
-        }
+    public void deletarFilme(Integer id) throws ConsultaIdInvalidoException {
 
         List<Filme> filmes = filmeRepository.findAll();
 

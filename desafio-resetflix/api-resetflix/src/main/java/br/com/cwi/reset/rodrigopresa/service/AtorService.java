@@ -86,10 +86,6 @@ public class AtorService {
     }
 
     public Ator consultarAtor(Integer id) throws Exception{
-        if (id == null) {
-            throw new IdNaoInformadoException();
-        }
-
         return atorRepository.findById(id).orElseThrow(() -> new ConsultaIdInvalidoException("ator", id));
     }
 
@@ -122,9 +118,7 @@ public class AtorService {
     }
 
     public void deletarAtor(Integer id) throws Exception {
-        if (id == null) {
-            throw new IdNaoInformadoException();
-        }
+
         Ator atorDeletado = consultarAtor(id);
         List<PersonagemAtor> personagens = personagemAtorService.consultarPersonagens();
         for(PersonagemAtor personagem : personagens){

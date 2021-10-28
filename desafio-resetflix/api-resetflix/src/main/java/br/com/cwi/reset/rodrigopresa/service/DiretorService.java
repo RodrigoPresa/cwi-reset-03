@@ -54,9 +54,6 @@ public class DiretorService {
     }
 
     public Diretor consultarDiretor(Integer id) throws Exception{
-        if (id == null) {
-            throw new IdNaoInformadoException();
-        }
 
         List<Diretor> diretores = diretorRepository.findAll();
 
@@ -122,9 +119,7 @@ public class DiretorService {
     }
 
     public void deletarDiretor(Integer id) throws Exception {
-        if (id == null) {
-            throw new IdNaoInformadoException();
-        }
+
         Diretor diretorDeletado = consultarDiretor(id);
         List<Filme> filmes = filmeService.consultarFilmes();
         for(Filme filme : filmes){

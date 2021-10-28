@@ -5,7 +5,6 @@ import br.com.cwi.reset.rodrigopresa.model.Ator;
 import br.com.cwi.reset.rodrigopresa.model.PersonagemAtor;
 import br.com.cwi.reset.rodrigopresa.repository.PersonagemAtorRepository;
 import br.com.cwi.reset.rodrigopresa.request.PersonagemRequest;
-import br.com.cwi.reset.rodrigopresa.validator.PersonagemRequestCamposObrigatoriosValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -64,7 +63,6 @@ public class PersonagemAtorService {
         final Set<PersonagemRequest> personagemRequestSet = new HashSet<>();
 
         for (PersonagemRequest personagemRequest : personagens) {
-            new PersonagemRequestCamposObrigatoriosValidator().accept(personagemRequest);
 
             if (personagemRequestSet.contains(personagemRequest)) {
                 throw new Exception("Não é permitido informar o mesmo ator/personagem mais de uma vez para o mesmo filme.");

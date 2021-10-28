@@ -66,9 +66,6 @@ public class EstudioService {
     }
 
     public Estudio consultarEstudio(Integer id) throws Exception{
-        if (id == null) {
-            throw new IdNaoInformadoException();
-        }
 
         List<Estudio> estudios = estudioRepository.findAll();
 
@@ -100,9 +97,7 @@ public class EstudioService {
     }
 
     public void deletarEstudio(Integer id) throws Exception {
-        if (id == null) {
-            throw new IdNaoInformadoException();
-        }
+
         Estudio estudioDeletado = consultarEstudio(id);
 
         estudioRepository.delete(estudioDeletado);
