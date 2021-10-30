@@ -143,7 +143,7 @@ public class Exercicios1Test {
         //Arrange
         Exercicios1 exercicios = new Exercicios1();
         List<Integer> numList = Arrays.asList();
-        Double expected = Double.NaN;
+        Double expected = 0.0;
 
         //Action
         Double result = exercicios.calcularMedia(numList);
