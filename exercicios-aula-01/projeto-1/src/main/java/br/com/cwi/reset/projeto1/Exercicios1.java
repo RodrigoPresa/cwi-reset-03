@@ -42,7 +42,12 @@ public class Exercicios1 {
         return invertida;
     }
 
-    public List<Integer> ordenarLista(List<Integer> numeros) {
+    public List<Integer> ordenarLista(List<Integer> numeros) throws Exception {
+
+        if(numeros.isEmpty()){
+            throw new Exception("Lista Vazia");
+        }
+
         Integer[] ints = numeros.toArray(new Integer[numeros.size()]);
         Integer aux;
         for (int i = 0; i < numeros.size() - 1; i++) {

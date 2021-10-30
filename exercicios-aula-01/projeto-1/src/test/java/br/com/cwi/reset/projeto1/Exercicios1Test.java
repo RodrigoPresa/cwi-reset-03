@@ -209,4 +209,40 @@ public class Exercicios1Test {
         //Assert
         Assertions.assertEquals(expected, result);
     }
+
+    @Test
+    public void testValidaSeNumerosEstaoOrdenados() throws Exception {
+        //Arrange
+        Exercicios1 exercicios = new Exercicios1();
+        List<Integer> numList = Arrays.asList(10, 60, 54, 120, 15);
+        List<Integer> expected = Arrays.asList(10, 15, 54, 60, 120);
+        //Action
+        List<Integer> result = exercicios.ordenarLista(numList);
+        //Assert
+        Assertions.assertEquals(expected, result);
+    }
+
+    @Test
+    public void testListaOrdenadaComNumerosNegativos() throws Exception {
+        //Arrange
+        Exercicios1 exercicios = new Exercicios1();
+        List<Integer> numList = Arrays.asList(85, -4, -65, 66);
+        List<Integer> expected = Arrays.asList(-65, -4, 66,85);
+        //Action
+        List<Integer> result = exercicios.ordenarLista(numList);
+        //Assert
+        Assertions.assertEquals(expected, result);
+    }
+
+    @Test
+    public void testOrdenarListaVazia(){
+        //Arrange
+        Exercicios1 exercicios = new Exercicios1();
+        List<Integer> numList = Arrays.asList();
+        //Action
+        Throwable exception = Assertions.assertThrows(Exception.class, () -> exercicios.ordenarLista(numList));
+        Assertions.assertEquals("Lista Vazia", exception.getMessage());
+
+    }
+
 }

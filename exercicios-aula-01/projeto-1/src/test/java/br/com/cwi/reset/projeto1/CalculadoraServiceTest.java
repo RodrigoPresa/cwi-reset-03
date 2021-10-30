@@ -64,4 +64,18 @@ public class CalculadoraServiceTest {
         // Assert
         Assertions.assertEquals(expected, result);
     }
+
+    @Test
+    public void testDivisaoDeNumeroPorZero() {
+        // Arrange
+        CalculadoraService service = new CalculadoraService();
+        Double primeiroNumero = 10.0;
+        Double segundoNumero = 0.0;
+
+        // Action and Assert
+        Assertions.assertThrows(ArithmeticException.class, () -> service.dividir(primeiroNumero,segundoNumero));
+
+
+    }
+
 }
